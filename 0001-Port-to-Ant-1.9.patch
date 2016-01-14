@@ -1,0 +1,44 @@
+From aff3baf83b795f99494b2d5bead1a6ee0c654fc5 Mon Sep 17 00:00:00 2001
+From: Mikolaj Izdebski <mizdebsk@redhat.com>
+Date: Thu, 19 Sep 2013 13:49:07 +0200
+Subject: [PATCH] Port to Ant 1.9
+
+---
+ OSGI-OPT/src/aQute/bnd/main/bnd.java      | 2 +-
+ OSGI-OPT/src/aQute/lib/osgi/Analyzer.java | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/OSGI-OPT/src/aQute/bnd/main/bnd.java b/OSGI-OPT/src/aQute/bnd/main/bnd.java
+index 71e4483..3ec33bc 100644
+--- a/OSGI-OPT/src/aQute/bnd/main/bnd.java
++++ b/OSGI-OPT/src/aQute/bnd/main/bnd.java
+@@ -1020,7 +1020,7 @@ public class bnd extends Processor {
+     }
+ 
+     public boolean doWrap(File properties, File bundle, File output,
+-            File classpath[], int options, Map<String, String> additional)
++            File classpath[], int options, Map<String, Object> additional)
+             throws Exception {
+         if (!bundle.exists()) {
+             error("No such file: " + bundle.getAbsolutePath());
+diff --git a/OSGI-OPT/src/aQute/lib/osgi/Analyzer.java b/OSGI-OPT/src/aQute/lib/osgi/Analyzer.java
+index 0a10d42..c6591fd 100644
+--- a/OSGI-OPT/src/aQute/lib/osgi/Analyzer.java
++++ b/OSGI-OPT/src/aQute/lib/osgi/Analyzer.java
+@@ -1216,10 +1216,10 @@ public class Analyzer extends Processor {
+         return sb.toString();
+     }
+ 
+-    public void putAll(Map<String, String> additional, boolean force) {
+-        for (Iterator<Map.Entry<String, String>> i = additional.entrySet()
++    public void putAll(Map<String, Object> additional, boolean force) {
++        for (Iterator<Map.Entry<String, Object>> i = additional.entrySet()
+                 .iterator(); i.hasNext();) {
+-            Map.Entry<String, String> entry = i.next();
++            Map.Entry<String, Object> entry = i.next();
+             if (force || getProperties().get(entry.getKey()) == null)
+                 setProperty((String) entry.getKey(), (String) entry.getValue());
+         }
+-- 
+1.8.1.4
+
