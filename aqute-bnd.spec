@@ -34,7 +34,7 @@
 
 Name:           %{?scl_prefix}%{pkg_name}
 Version:        0.0.363
-Release:        11.12%{?dist}
+Release:        11.13%{?dist}
 Summary:        BND Tool
 License:        ASL 2.0
 URL:            http://www.aQute.biz/Code/Bnd
@@ -75,7 +75,7 @@ Javadoc for %{pkg_name}.
 
 %prep
 %setup -q -c -n %{pkg_name}-%{version}
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 %patch0 -p1
 
@@ -105,11 +105,11 @@ sed -i "s|\r||g" LICENSE
 %{?scl:EOF}
 
 %build
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 export LANG=en_US.utf8
 export OPT_JAR_LIST=:
-export CLASSPATH=$(build-classpath ant)
+export CLASSPATH=$(build-classpath ant/ant)
 
 /usr/bin/javac -d target/classes -target 1.5 -source 1.5 $(find src/main/java -type f -name "*.java")
 /usr/bin/javadoc -d target/site/apidocs -sourcepath src/main/java aQute.lib.header aQute.lib.osgi aQute.lib.qtokens aQute.lib.filter
@@ -123,7 +123,7 @@ popd
 %{?scl:EOF}
 
 %install
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 # jars
 install -Dpm 644 target/%{pkg_name}-%{version}.jar %{buildroot}%{_javadir}/%{pkg_name}.jar
@@ -146,6 +146,9 @@ cp -pr target/site/apidocs/* %{buildroot}%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 0.0.363-11.13
+- maven33 rebuild #2
+
 * Sat Jan 09 2016 Michal Srb <msrb@redhat.com> - 0.0.363-11.12
 - maven33 rebuild
 
