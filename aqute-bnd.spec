@@ -34,7 +34,7 @@
 
 Name:           %{?scl_prefix}%{pkg_name}
 Version:        0.0.363
-Release:        11.13%{?dist}
+Release:        11.14%{?dist}
 Summary:        BND Tool
 License:        ASL 2.0
 URL:            http://www.aQute.biz/Code/Bnd
@@ -146,6 +146,9 @@ cp -pr target/site/apidocs/* %{buildroot}%{_javadocdir}/%{name}
 %{_javadocdir}/%{name}
 
 %changelog
+* Mon Feb 08 2016 Michal Srb <msrb@redhat.com> - 0.0.363-11.14
+- Fix BR on maven-local & co.
+
 * Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 0.0.363-11.13
 - maven33 rebuild #2
 
