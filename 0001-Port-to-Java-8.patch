@@ -1,0 +1,76 @@
+From 2da86d459a4806760d2883ed3c6296f904c80593 Mon Sep 17 00:00:00 2001
+From: Michael Simacek <msimacek@redhat.com>
+Date: Thu, 26 May 2016 15:43:14 +0200
+Subject: [PATCH 1/2] Port to Java 8
+
+---
+ aQute.libg/src/aQute/lib/collections/DoubleKeyMap.java | 14 --------------
+ aQute.libg/src/aQute/lib/collections/SortedList.java   |  6 ++++++
+ biz.aQute.bnd/src/aQute/bnd/ant/BndTask.java           |  2 +-
+ 3 files changed, 7 insertions(+), 15 deletions(-)
+
+diff --git a/aQute.libg/src/aQute/lib/collections/DoubleKeyMap.java b/aQute.libg/src/aQute/lib/collections/DoubleKeyMap.java
+index 4107f31..40ecfdf 100644
+--- a/aQute.libg/src/aQute/lib/collections/DoubleKeyMap.java
++++ b/aQute.libg/src/aQute/lib/collections/DoubleKeyMap.java
+@@ -97,20 +97,6 @@ public class DoubleKeyMap<K1, K2, V> extends HashMap<K1,Map<K2,V>>implements Map
+ 		return result;
+ 	}
+ 
+-	public V remove(K1 key1, K2 key2) {
+-		assert k1Class.isInstance(key1);
+-		assert k2Class.isInstance(key2);
+-
+-		Map<K2,V> set = get(key1);
+-		if (set == null) {
+-			return null;
+-		}
+-		V result = set.remove(key2);
+-		if (set.isEmpty())
+-			remove(key1);
+-		return result;
+-	}
+-
+ 	public Iterator<Map.Entry<K2,V>> iterate(K1 key) {
+ 		assert k1Class.isInstance(key);
+ 		Map<K2,V> set = get(key);
+diff --git a/aQute.libg/src/aQute/lib/collections/SortedList.java b/aQute.libg/src/aQute/lib/collections/SortedList.java
+index 493d7bc..8a48a72 100644
+--- a/aQute.libg/src/aQute/lib/collections/SortedList.java
++++ b/aQute.libg/src/aQute/lib/collections/SortedList.java
+@@ -9,6 +9,7 @@ import java.util.List;
+ import java.util.ListIterator;
+ import java.util.NoSuchElementException;
+ import java.util.SortedSet;
++import java.util.Spliterator;
+ 
+ /**
+  * An immutbale list that sorts objects by their natural order or through a
+@@ -28,6 +29,11 @@ import java.util.SortedSet;
+  */
+ @SuppressWarnings("unchecked")
+ public class SortedList<T> implements SortedSet<T>, List<T> {
++
++    @Override
++    public Spliterator<T> spliterator() {
++        return List.super.spliterator();
++    }
+ 	static SortedList< ? >		empty		= new SortedList<Object>();
+ 
+ 	final T[]					list;
+diff --git a/biz.aQute.bnd/src/aQute/bnd/ant/BndTask.java b/biz.aQute.bnd/src/aQute/bnd/ant/BndTask.java
+index efd43a3..9fd21fd 100644
+--- a/biz.aQute.bnd/src/aQute/bnd/ant/BndTask.java
++++ b/biz.aQute.bnd/src/aQute/bnd/ant/BndTask.java
+@@ -217,7 +217,7 @@ public class BndTask extends BaseTask {
+ 				if (inherit) {
+ 					Properties projectProperties = new UTF8Properties();
+ 					@SuppressWarnings("unchecked")
+-					Hashtable<Object,Object> antProps = getProject().getProperties();
++					Hashtable<String,Object> antProps = getProject().getProperties();
+ 					projectProperties.putAll(antProps);
+ 					projectProperties.putAll(builder.getProperties());
+ 					builder.setProperties(projectProperties);
+-- 
+2.7.4
+
