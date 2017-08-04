@@ -8,7 +8,7 @@
 
 Name:           %{?scl_prefix}aqute-bnd
 Version:        3.3.0
-Release:        6.1%{?dist}
+Release:        6.2%{?dist}
 Summary:        BND Tool
 License:        ASL 2.0
 URL:            http://bnd.bndtools.org/
@@ -206,6 +206,9 @@ echo "aqute-bnd slf4j/api slf4j/simple osgi-annotation osgi-core osgi-compendium
 %license LICENSE
 
 %changelog
+* Thu Jun 22 2017 Michael Simacek <msimacek@redhat.com> - 3.3.0-6.2
+- Mass rebuild 2017-06-22
+
 * Wed Jun 21 2017 Java Maintainers <java-maint@redhat.com> - 3.3.0-6.1
 - Automated package import and SCL-ization
 
